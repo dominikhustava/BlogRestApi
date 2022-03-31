@@ -1,0 +1,14 @@
+reset root password mysql:
+ProgramData is hidden folder
+C:\Program Files\MySQL\MySQL Server 8.0\bin>"C:\Program Files\MySQL\MySQL Server 8.0\bin\mysqld" --defaults-file="C:\ProgramData\MySQL\MySQL Server 8.0\my.ini" --init-file="C:\mysqlreset\reset.txt"
+
+this will run msqlservice, than connect with workbench and run command
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'NewPassword123';
+
+then kill mysqld ctrl+c
+close workbench
+(delete resetpassword file)
+restart mysql service from services window
+connect with new password (NewPassword123)
+
+I had to create data folder inside C:\ProgramData\MySQL\MySQL Server 8.0\ and give in convenient rights
