@@ -7,6 +7,9 @@ import com.blogapi.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class PostServiceImpl implements PostService {
 
@@ -27,6 +30,12 @@ public class PostServiceImpl implements PostService {
         // convert entity to DTO
         PostDto postResponse = mapToDTO(newPost);
         return postResponse;
+    }
+
+    @Override
+    public List<PostDto> getAllPosts() {
+        List<Post> posts = postRepository.findAll();
+        return posts.stream().map(post -> mapToDTO(post)).collect(Collectors.toList());
     }
 
 
