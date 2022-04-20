@@ -1,6 +1,7 @@
 package com.blogapi.controller;
 
 import com.blogapi.payload.PostDto;
+import com.blogapi.payload.PostResponse;
 import com.blogapi.service.PostService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,10 +28,11 @@ public class PostController {
 
     // get all posts rest api
     @GetMapping
-    public List<PostDto> getAllPosts( @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
-                                      @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize){
+    public PostResponse getAllPosts(@RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
+                                    @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
+                                    @RequestParam(value = "sortBy", defaultValue = "id", required = false) String sortBy){
 
-        return postService.getAllPosts(pageNo, pageSize);
+        return postService.getAllPosts(pageNo, pageSize, sortBy);
     }
 
     // get post by id
