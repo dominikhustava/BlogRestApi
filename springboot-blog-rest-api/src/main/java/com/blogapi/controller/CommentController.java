@@ -22,6 +22,7 @@ public class CommentController {
     @PostMapping("/posts/{postId}/comments")
     public ResponseEntity<CommentDto> createComment(@PathVariable(value = "postId") long postId,
                                                     @RequestBody CommentDto commentDto){
+        System.out.println("Test sout for branch Feature1 testing");
         return new ResponseEntity<>(commentService.createComment(postId, commentDto), HttpStatus.CREATED);
     }
 
