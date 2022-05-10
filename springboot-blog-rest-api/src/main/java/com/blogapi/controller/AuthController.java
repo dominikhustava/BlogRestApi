@@ -3,6 +3,7 @@ package com.blogapi.controller;
 import com.blogapi.entity.Role;
 import com.blogapi.entity.User;
 import com.blogapi.payload.LoginDto;
+import com.blogapi.payload.SignUpDto;
 import com.blogapi.repository.RoleRepository;
 import com.blogapi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,5 +45,32 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return new ResponseEntity<>("User signed-in successfully!.", HttpStatus.OK);
     }
-    
+    @PostMapping("/signup")
+    public ResponseEntity<?> registerUser(@RequestBody SignUpDto signUpDto){
+
+        // add check for username exists in a DB
+        if(userRepository.existsByUsername(signUpDto.getUsername())){
+            return new ResponseEntity<>("Username is already taken!", HttpStatus.BAD_REQUEST);
+        }
+
+        // add check for email exists in DB
+        if(userRepository.existsByEmail(signUpDto.getEmail())){
+            return new ResponseEntity<>("Email is already taken!", HttpStatus.BAD_REQUEST);
+        }
+
+        // create user object
+        User user = new User();
+        user.setName(signUpDto.getName());
+        user.setUsername(signUpDto.getUsername());
+        user.setEmail(signUpDto.getEmail());
+        user.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
+
+        Role roles = roleRepository.findByName("ROLE_ADMIN").get();
+        user.setRoles(Collections.singleton(roles));
+
+        userRepository.save(user);
+
+        return new ResponseEntity<>("User registered successfully", HttpStatus.OK);
+
+    }
 }
