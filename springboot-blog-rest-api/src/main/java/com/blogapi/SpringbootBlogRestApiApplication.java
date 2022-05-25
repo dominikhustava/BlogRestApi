@@ -1,6 +1,9 @@
 package com.blogapi;
 
+import com.blogapi.entity.Student;
+import com.blogapi.repository.StudentRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +19,14 @@ public class SpringbootBlogRestApiApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringbootBlogRestApiApplication.class, args);
+	}
+
+	@Bean
+	CommandLineRunner commandLineRunner(StudentRepository studentRepository){
+		return args -> {
+			Student dominik = new Student("Dominik", "Hustavka", "dh12@mail.com", 20);
+			studentRepository.save(dominik);
+		};
 	}
 
 }
